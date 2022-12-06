@@ -1,4 +1,7 @@
 import React, { lazy, Suspense, useState } from "react";
+import StepChange from "./components/StepChange";
+import { StepProvider } from "./Context/stepContext";
+import Steps from "./Pages/Steps/Steps";
 
 const PersonalInfo = lazy(() =>
   import("./Pages/PersonalInfoPage/PersonalInfo")
@@ -27,18 +30,27 @@ const App = () => {
   ];
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
-      <div>
-        {pagesSteps.map((page) => page.step === step && <div>{page.page}</div>)}
+      <StepProvider>
+        <div>
+          {/* Step section */}
+          <div>
+            <Steps pagesSteps={pagesSteps} />
+          </div>
 
-        {step}
-        <button
-          onClick={handleGoBack}
-          style={step === 1 ? { display: "none" } : { display: "block" }}
-        >
-          go back
-        </button>
-        <button onClick={handleNext}>Next</button>
-      </div>
+          {/* forms */}
+          <div>
+            {pagesSteps.map(
+              (page) => page.step === step && <div>{page.page}</div>
+            )}
+          </div>
+
+          <StepChange
+            step={step}
+            handleGoBack={handleGoBack}
+            handleNext={handleNext}
+          />
+        </div>
+      </StepProvider>
     </Suspense>
   );
 };
