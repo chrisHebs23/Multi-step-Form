@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
+import { StepContext } from "../../Context/stepContext";
+import "./Steps.css";
 
-const Steps = ({ pagesSteps }) => {
+const Steps = () => {
+  const { state } = useContext(StepContext);
+  const steps = [1, 2, 3, 4];
   return (
     <div className="step-section">
-      <ul>
-        {pagesSteps.map((step) => (
-          <li>{step.step}</li>
+      <ul className="step-list">
+        {steps.map((step) => (
+          <div key={step}>
+            <li className={state.step === step && "active"}>{step}</li>
+          </div>
         ))}
       </ul>
     </div>
